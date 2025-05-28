@@ -166,16 +166,4 @@ Together, they simulate a collaborative medical team, improving output quality a
 
 ## 👥 Contributors
 
-* **Your Name** – Developer & Architect
-
-> *(Feel free to add GitHub handles or contributors here)*
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
-
----
-
-Let me know if you'd like a downloadable version or modifications for deployment (Docker, Heroku, etc.).
+* **Naveen Pandey** – 
