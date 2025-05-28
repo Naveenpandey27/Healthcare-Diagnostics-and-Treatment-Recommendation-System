@@ -2,9 +2,9 @@
 
 # 🧠 SmartMed AI
 
-Welcome to **SmartMed AI** — an AI-powered healthcare assistant that harnesses the capabilities of multi-agent systems to deliver preliminary medical diagnoses and personalized treatment recommendations. Built with cutting-edge tools like **Streamlit**, **CrewAI**, and **OpenAI**, this application is designed to support healthcare professionals with intelligent insights, not to replace them.
+Welcome to **SmartMed AI** — an AI-powered healthcare assistant that uses multiple intelligent agents to generate **preliminary medical diagnoses** and **personalized treatment plans** based on patient-provided information. This interactive web application is built using modern AI frameworks and can be accessed remotely through an automatically generated public URL using **Ngrok**.
 
-> ⚠️ **Disclaimer**: This AI-generated diagnosis and treatment plan is for informational purposes only. Always consult with a qualified healthcare professional for medical advice, diagnosis, or treatment.
+> ⚠️ **Disclaimer**: This AI-generated diagnosis and treatment plan is for informational purposes only. Always consult a qualified healthcare professional for actual medical advice, diagnosis, or treatment.
 
 ---
 
@@ -15,43 +15,46 @@ Welcome to **SmartMed AI** — an AI-powered healthcare assistant that harnesses
 * [Technologies Used](#technologies-used)
 * [Installation](#installation)
 * [Usage](#usage)
+* [Public Sharing via Ngrok](#public-sharing-via-ngrok)
 * [Configuration](#configuration)
 * [Examples](#examples)
 * [Troubleshooting](#troubleshooting)
 * [What is a Multi-Agent System?](#what-is-a-multi-agent-system)
 * [Contributors](#contributors)
-* [License](#license)
 
 ---
 
 ## 🌟 Overview
 
-SmartMed AI provides a user-friendly interface where users can input patient information such as age, gender, symptoms, and medical history. Once submitted, two specialized AI agents — a **Medical Diagnostician** and a **Treatment Advisor** — collaborate to generate a preliminary diagnosis and a corresponding treatment plan.
+SmartMed AI allows users to enter basic patient details, such as age, gender, symptoms, and medical history. Once submitted, the system uses a pair of specialized AI agents — one for diagnosis and the other for treatment — to generate intelligent medical insights in real time.
+
+The application can also be **shared live over the internet** using **Ngrok**, so that others can interact with the AI from anywhere without any deployment setup.
 
 ---
 
 ## 🚀 Features
 
-* 🧑‍⚕️ Collects and processes patient data
-* 🩺 Offers AI-generated preliminary diagnoses
-* 💊 Recommends personalized treatment plans
-* 🔁 Employs a multi-agent system for collaboration
-* 🌐 Uses real-time web scraping and search for current medical knowledge
-* 🧵 User-friendly Streamlit web interface
+* 👤 Collects patient demographics and health inputs
+* 🧠 Uses multiple AI agents for diagnosis and treatment
+* 📄 Provides ranked diagnoses with supporting evidence
+* 💊 Suggests treatment plans with medications, lifestyle advice, and follow-ups
+* 🌐 Real-time internet access using search and scraping tools
+* 🔗 Shareable live app via Ngrok for remote testing or demos
 
 ---
 
 ## 🛠 Technologies Used
 
-| Technology                 | Purpose                                                               |
-| -------------------------- | --------------------------------------------------------------------- |
-| **Streamlit**              | Builds the interactive web interface                                  |
-| **CrewAI**                 | Defines and manages autonomous agents and tasks                       |
-| **LangChain + OpenAI API** | Powers the intelligent reasoning behind diagnoses and recommendations |
-| **SerperDevTool**          | Provides search capabilities for real-time data retrieval             |
-| **ScrapeWebsiteTool**      | Enables agents to pull information from relevant web resources        |
-| **dotenv**                 | Securely loads environment variables                                  |
-| **Google Colab**           | Manages user data (example platform integration)                      |
+| Technology             | Purpose                                               |
+| ---------------------- | ----------------------------------------------------- |
+| **Streamlit**          | Builds the user interface                             |
+| **CrewAI**             | Defines and manages multi-agent workflows             |
+| **LangChain + OpenAI** | Powers the LLM reasoning (GPT-4 / GPT-4O-MINI)        |
+| **SerperDevTool**      | Integrates web search capabilities                    |
+| **ScrapeWebsiteTool**  | Enables real-time web scraping for additional data    |
+| **python-dotenv**      | Manages API keys and sensitive config values securely |
+| **Ngrok**              | Publishes the app to the internet for external access |
+| **Google Colab**       | Sample platform used for experimentation              |
 
 ---
 
@@ -71,99 +74,125 @@ SmartMed AI provides a user-friendly interface where users can input patient inf
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
-3. **Install Dependencies**:
+3. **Install Required Dependencies**:
 
    ```bash
    pip install -r requirements.txt
    ```
 
 4. **Set Up Environment Variables**:
-   Create a `.env` file with the following:
+   Create a `.env` file in your project root:
 
    ```env
    OPENAI_API_KEY=your_openai_api_key
    SERPER_API_KEY=your_serper_api_key
    ```
 
+5. **(Optional) Install Ngrok**:
+
+   ```bash
+   pip install pyngrok
+   ```
+
 ---
 
 ## 💻 Usage
 
-1. **Run the App**:
+### Running the Application Locally
 
-   ```bash
-   streamlit run app.py
-   ```
+```bash
+streamlit run main.py
+```
 
-2. **Enter Patient Info**:
+### Running the Application and Exposing it with Ngrok
 
-   * Select gender and age
-   * Input symptoms and medical history
+In `ngrok_runner.py` or in your notebook, use the following:
 
-3. **Click “Get Diagnosis and Treatment Plan”**:
+```python
+import os
+from threading import Thread
+from pyngrok import ngrok
 
-   * Wait for the multi-agent system to generate recommendations
+def run_streamlit():
+    os.system('streamlit run /content/main.py --server.port 8503')
 
-4. **Review Results**:
+thread = Thread(target=run_streamlit)
+thread.start()
 
-   * Diagnoses and treatments appear in the main panel
+public_url = ngrok.connect(addr='8503', proto='http', bind_tls=True)
+print('Streamlit app is alive at :', public_url)
+```
+
+### Result:
+
+After a few seconds, the terminal will print a public URL like:
+
+```
+Streamlit app is alive at : https://abcd1234.ngrok.io
+```
+
+You can send this link to anyone for real-time testing.
 
 ---
 
 ## ⚙️ Configuration
 
-* **OpenAI API Key** and **Serper API Key** are required to enable language model and search capabilities.
-* All configurable parameters (like temperature, model name) are adjustable in the Python script (`gpt-4o-mini` is the default model).
+You can change the model (`gpt-4o-mini`), temperature, or token limits directly in the script. The `.env` file must contain valid API keys for:
+
+* `OPENAI_API_KEY`
+* `SERPER_API_KEY`
 
 ---
 
 ## 🧪 Examples
 
-### Example Input
+### Sample Input:
 
 ```
-Symptoms: persistent cough, fever, shortness of breath
-Medical History: asthma, seasonal allergies
+Gender: Female
+Age: 42
+Symptoms: shortness of breath, fatigue, swelling in legs
+Medical History: hypertension, type 2 diabetes
 ```
 
-### Example Output
+### Sample Output:
 
-```
-Diagnosis:
-1. Acute Bronchitis
-2. Pneumonia (Possible)
+* **Diagnosis**:
 
-Treatment:
-- Prescribed inhaler use
-- 5-day antibiotic course
-- Increase fluid intake
-- Follow-up in 3 days
-```
+  1. Congestive Heart Failure
+  2. Chronic Kidney Disease (possible comorbidity)
+
+* **Treatment Plan**:
+
+  * Start low-sodium diet
+  * Diuretic therapy (Furosemide)
+  * Cardiology follow-up
+  * Lifestyle changes (weight monitoring, fluid intake tracking)
 
 ---
 
 ## 🛠 Troubleshooting
 
-| Issue                 | Solution                                                         |
-| --------------------- | ---------------------------------------------------------------- |
-| Missing API Keys      | Ensure `.env` is correctly configured and placed in project root |
-| Streamlit crashes     | Check for correct Python version and package installations       |
-| Long wait times       | This is expected due to multi-agent processing (optimize later)  |
-| Poor response quality | Try revising input descriptions or symptoms for clarity          |
+| Issue                 | Solution                                                          |
+| --------------------- | ----------------------------------------------------------------- |
+| App doesn’t launch    | Check that Streamlit and dependencies are installed               |
+| Blank/empty responses | Verify that API keys are valid and not rate-limited               |
+| Ngrok URL not working | Ensure Ngrok is installed, check for port conflicts               |
+| Delays in response    | Allow processing time due to agent collaboration (optimize model) |
 
 ---
 
 ## 🧠 What is a Multi-Agent System?
 
-A **multi-agent system** is a collection of AI agents that work together to achieve complex goals. In SmartMed AI:
+A **multi-agent system** involves several intelligent agents working collaboratively. In this application:
 
-* The **Medical Diagnostician** analyzes symptoms and medical history to propose possible conditions.
-* The **Treatment Advisor** takes the diagnosis and builds a personalized treatment strategy.
+* The **Medical Diagnostician Agent** evaluates symptoms and medical history to form a ranked list of possible diagnoses.
+* The **Treatment Advisor Agent** uses the diagnoses to formulate a suitable treatment plan, including medications, lifestyle changes, and follow-up care.
 
-Together, they simulate a collaborative medical team, improving output quality and contextual understanding.
+This modular, cooperative setup mirrors real-world medical workflows and improves the decision-making process.
 
 ---
 
 ## 👥 Contributors
 
-* **Naveen Pandey** – 
+* **Naveen Pandey**
