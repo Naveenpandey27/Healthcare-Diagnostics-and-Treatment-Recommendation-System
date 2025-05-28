@@ -63,8 +63,8 @@ The application can also be **shared live over the internet** using **Ngrok**, s
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/your-username/smartmed-ai.git
-   cd smartmed-ai
+   git clone https://github.com/Naveenpandey27/Healthcare-Diagnostics-and-Treatment-Recommendation-System.git
+   cd Healthcare-Diagnostics-and-Treatment-Recommendation-System
    ```
 
 2. **Create a Virtual Environment** *(optional but recommended)*:
