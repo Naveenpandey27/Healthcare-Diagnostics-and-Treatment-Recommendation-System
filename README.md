@@ -26,6 +26,8 @@ Welcome to **SmartMed AI** — an AI-powered healthcare assistant that uses mult
 
 ## 🌟 Overview
 
+![saved](https://github.com/user-attachments/assets/55f4a3ac-5ad5-4082-990c-429459505535)
+
 SmartMed AI allows users to enter basic patient details, such as age, gender, symptoms, and medical history. Once submitted, the system uses a pair of specialized AI agents — one for diagnosis and the other for treatment — to generate intelligent medical insights in real time.
 
 The application can also be **shared live over the internet** using **Ngrok**, so that others can interact with the AI from anywhere without any deployment setup.
